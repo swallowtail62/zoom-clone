@@ -1,12 +1,14 @@
 import express from "express";
-import { Server } from "http";
+import http from "http";
+import { Server } from "socket.io";
 
 const app = express();
-const http = new Server(app);
+const server = new http.Server(app);
+const io = new Server(server);
 
 app.get("/", (req, res) => {
   res.send("hello world");
 });
 
 const port = Number(process.env.PORT) || 7000;
-http.listen(port);
+server.listen(port);
