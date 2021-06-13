@@ -19,8 +19,10 @@ app.get("/:room", (req, res) => {
 });
 
 io.on("connection", (socket) => {
+  // handles the event sent with socket.emit()
   socket.on("join-room", (roomId, userId) => {
-    console.log(`roomId: ${roomId}, userId: ${userId}`);
+    socket.join(roomId);
+    socket.to(roomId).emit("user-connected", userId);
   });
 });
 
