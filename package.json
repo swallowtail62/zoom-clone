@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node-dev --respawn src/index.ts",
+    "dev": "concurrently \"npm:express\" \"npm run peer\"",
+    "express": "ts-node-dev --respawn src/index.ts",
     "peer": "peerjs --port 3001",
     "lint:check": "prettier --check src/**",
     "lint:fix": "prettier --write src/**",
@@ -24,6 +25,7 @@
     "@tsconfig/node14": "^1.0.1",
     "@types/express": "^4.17.12",
     "@types/uuid": "^8.3.0",
+    "concurrently": "^6.2.0",
     "prettier": "^2.3.1",
     "ts-node-dev": "^1.1.6",
     "typescript": "^4.3.2"
