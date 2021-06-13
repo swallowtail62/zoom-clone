@@ -8,6 +8,8 @@ const videoGrid = document.getElementById('video-grid');
 const myVideo = document.createElement('video');
 myVideo.muted = true;
 
+const peers = {};
+
 navigator.mediaDevices.getUserMedia({
   video: true,
   audio: true,
@@ -22,6 +24,11 @@ navigator.mediaDevices.getUserMedia({
     connectToNewUser(userId, stream);
   });
 });
+
+socket.on('user-disconnected', userId => {
+  peers[userId]?.close();
+  console.log(`disconnected userId: ${userId}`)
+})
 
 function addVideoStream(video, stream) {
   video.srcObject = stream;
@@ -41,6 +48,8 @@ function connectToNewUser(userId, stream) {
   call.on('close', () => {
     video.remove();
   })
+
+  peers[userId] = call;
 }
 
 myPeer.on('open', id => {
